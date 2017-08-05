@@ -1,14 +1,12 @@
 package ru.malltshik.filesystem.entities;
 
 import com.fasterxml.jackson.annotation.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 @AllArgsConstructor
@@ -34,11 +32,7 @@ public class Directory {
         this.created = new Date();
         this.updated = created;
         this.directories = new ArrayList<>();
-    }
-
-    public Directory(String name, Directory parent) {
-        this(name);
-        this.parent = parent;
+        this.parent = null;
     }
 
     public String getPath() {
@@ -57,6 +51,28 @@ public class Directory {
     @Override
     public int hashCode() {
         return this.getPath().hashCode() * 31;
+    }
+
+
+    @JsonProperty("directories")
+    public List<JSONDirectory> getJSONDirectories(){
+        return this.directories.stream().map(JSONDirectory::new)
+                .collect(Collectors.toList());
+    }
+
+    @Data
+    private class JSONDirectory {
+        private String name;
+        private String path;
+        private String parentName;
+        private String parentPath;
+
+        JSONDirectory(Directory d) {
+            this.name = d.name;
+            this.path = d.getPath();
+            this.parentName = d.parent != null ? d.parent.name : null;
+            this.parentPath = d.parent != null ? d.parent.getPath() : null;
+        }
     }
 
 }

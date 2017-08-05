@@ -11,7 +11,8 @@ import ru.malltshik.filesystem.services.FileSystem;
 @RequestMapping("/fs")
 public class FileSystemController {
 
-    @Autowired private FileSystem fs;
+    @Autowired
+    private FileSystem fs;
 
     @RequestMapping(method = RequestMethod.GET)
     public Directory getDirectory(@RequestParam(name = "p", required = false) String path)

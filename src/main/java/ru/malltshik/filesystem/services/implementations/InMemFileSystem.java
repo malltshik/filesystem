@@ -15,6 +15,16 @@ public class InMemFileSystem implements FileSystem {
 
     private static final Directory root = new Directory();
 
+//    Наполнение данными для отладки
+//    static {
+//        Directory home = new Directory("home");
+//        home.setParent(root);
+//        Directory user = new Directory("user");
+//        user.setParent(home);
+//        home.getDirectories().add(user);
+//        root.getDirectories().add(home);
+//    }
+
     @Override
     public Directory getDirectory() throws Exception {
         return getDirectory(root.getPath());
