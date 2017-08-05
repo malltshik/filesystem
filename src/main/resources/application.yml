@@ -1,0 +1,12 @@
+app:
+  encoding: @project.build.sourceEncoding@
+  java:
+    version: @java.version@
+spring:
+  application:
+    name: filesystem
+  jackson:
+    deserialization:
+      use_java_array_for_json_array: true
+server:
+    port: 8080
