@@ -16,14 +16,14 @@ public class InMemFileSystem implements FileSystem {
     private static final Directory root = new Directory();
 
 //    Наполнение данными для отладки
-//    static {
-//        Directory home = new Directory("home");
-//        home.setParent(root);
-//        Directory user = new Directory("user");
-//        user.setParent(home);
-//        home.getDirectories().add(user);
-//        root.getDirectories().add(home);
-//    }
+    static {
+        Directory home = new Directory("home");
+        home.setParent(root);
+        Directory user = new Directory("user");
+        user.setParent(home);
+        home.getDirectories().add(user);
+        root.getDirectories().add(home);
+    }
 
     @Override
     public Directory getDirectory() throws Exception {
@@ -53,11 +53,15 @@ public class InMemFileSystem implements FileSystem {
     }
 
     @Override
-    public Directory updateDirectory(String path, Directory directory) throws Exception {
-        Directory origin = getDirectory(path);
+    public Directory updateDirectory(String originalPath, Directory directory) throws Exception {
+
+        Directory origin = getDirectory(originalPath);
+
         validateDirectory(origin.getParent(), directory);
+
         origin.setName(directory.getName());
         origin.setUpdated(new Date());
+
         return origin;
     }
 

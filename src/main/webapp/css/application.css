@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css?family=Ubuntu:400,700");
+body {
+  font-family: "Ubuntu", Tahoma, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+button, html, input, select, textarea {
+    font-family: "Ubuntu", Tahoma, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+:focus {
+    outline: -webkit-focus-ring-color auto 0px !important;
+}
+
+md-toolbar .icon {
+    color: white !important;
+}
+
+.fm {
+    padding: 0;
+}
+
+.fm > .fm-item {
+    width: 100px;
+    height: 100px;
+    padding: 8px;
+    float: left;
+}
+
+.fm > .fm-item > md-icon {
+    font-size: 100px;
+}
+
+.fm-item-title {
+    text-align: center;
+    color: white;
+}
+
+.selected {
+    background: #3f51b5 !important;
+    opacity: 0.1 !important;
+}
+
+md-toast .md-toast-content md-icon {
+  color: white !important;
+}
+md-toast a {
+  color: white !important;
+}
+md-toast[status="1"] > .md-toast-content{
+  background: #70c8e2;
+}
+md-toast[status="2"] > .md-toast-content {
+  background: rgb(101, 177, 101);
+}
+md-toast[status="4"] > .md-toast-content {
+  background: #efc035;
+}
+md-toast[status="5"] > .md-toast-content {
+  background: rgb(255, 82, 82);
+}

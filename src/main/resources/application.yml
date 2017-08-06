@@ -8,5 +8,7 @@ spring:
   jackson:
     deserialization:
       use_java_array_for_json_array: true
+  resources:
+    cache-period: 0
 server:
     port: 8080

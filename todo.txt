@@ -1,2 +1,2 @@
 // TODO Backend: add functionality for work with files
-// TODO Frontend: add file manager with REST API support for work with file system
+// TODO Backend: add move/copy operations

@@ -12,9 +12,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class Directory {
 
-    @JsonManagedReference
     private List<Directory> directories;
-    @JsonBackReference
     private Directory parent;
     private String name;
     private Date created;
@@ -33,6 +31,14 @@ public class Directory {
         this.updated = created;
         this.directories = new ArrayList<>();
         this.parent = null;
+    }
+
+    public Directory(Directory other, Directory parent) {
+        this.name = other.name;
+        this.created = other.created;
+        this.updated = other.updated;
+        this.directories = other.directories;
+        this.parent = parent;
     }
 
     public String getPath() {
@@ -55,9 +61,14 @@ public class Directory {
 
 
     @JsonProperty("directories")
-    public List<JSONDirectory> getJSONDirectories(){
+    public List<JSONDirectory> getChildDirectoriesJSON(){
         return this.directories.stream().map(JSONDirectory::new)
                 .collect(Collectors.toList());
+    }
+
+    @JsonProperty("parent")
+    public JSONDirectory getParentDirectoryJSON() {
+        return this.parent != null ? new JSONDirectory(this.parent) : null;
     }
 
     @Data
