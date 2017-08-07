@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.malltshik.filesystem.exceptions.BadRequestException;
@@ -25,8 +26,8 @@ public class ControllerAdviceConfiguration {
         return new ResponseEntity<>(new ExceptionEntity(ex), new HttpHeaders(), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<Object> handleException(BadRequestException ex) {
+    @ExceptionHandler({BadRequestException.class, HttpMessageNotReadableException.class})
+    public ResponseEntity<Object> handleBadRequestException(Exception ex) {
         return new ResponseEntity<>(new ExceptionEntity(ex), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 

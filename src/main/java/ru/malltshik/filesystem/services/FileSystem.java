@@ -1,19 +1,26 @@
 package ru.malltshik.filesystem.services;
 
 import org.springframework.stereotype.Service;
-import ru.malltshik.filesystem.entities.Directory;
+import ru.malltshik.filesystem.entities.File;
+import ru.malltshik.filesystem.entities.JSONFile;
+
+import java.util.List;
 
 @Service
 public interface FileSystem {
 
-    Directory getDirectory() throws Exception;
+    File getFile() throws Exception;
 
-    Directory getDirectory(String path) throws Exception;
+    File getFile(String path) throws Exception;
 
-    Directory createDirectory(String path, Directory directory) throws Exception;
+    File createFile(String path, File file) throws Exception;
 
-    Directory updateDirectory(String path, Directory directory) throws Exception;
+    File updateFile(String path, File file) throws Exception;
 
-    void deleteDirectory(String path) throws Exception;
+    void deleteFile(String path) throws Exception;
+
+    List<File> moveFiles(String path, List<JSONFile> files) throws Exception;
+
+    List<File> copyFiles(String path, List<JSONFile> files) throws Exception;
 
 }

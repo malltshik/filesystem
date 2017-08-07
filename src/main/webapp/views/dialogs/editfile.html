@@ -1,0 +1,19 @@
+<md-dialog aria-label="Edit file">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 ng-bind="file.name"></h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon aria-label="Close dialog" class="icon material-icons">close</md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <textarea name="data" cols="100" rows="40" ng-model="file.data"
+            style="border:none;"></textarea>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="save(file)">Save</md-button>
+        </md-dialog-actions>
+</md-dialog>

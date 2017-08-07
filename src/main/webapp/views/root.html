@@ -2,6 +2,9 @@
     <div class="md-toolbar-tools">
         <h2 ng-bind="fs.path"></h2>
         <span flex></span>
+        <button class="md-icon-button md-button" type="button" ng-click="addFileDialog($event)">
+            <md-icon class="icon material-icons">note_add</md-icon>
+        </button>
         <button class="md-icon-button md-button" type="button" ng-click="addFolderDialog($event)">
             <md-icon class="icon material-icons">create_new_folder</md-icon>
         </button>
@@ -11,19 +14,21 @@
 
 <md-content>
     <md-list flex >
-        <md-list-item ng-if="fs.parent" ng-dblclick="openFolder(fs.parent.path)">
+        <md-list-item ng-if="fs.parent" ng-dblclick="open(fs.parent)">
             <md-icon class="icon material-icon">folder</md-icon>
             <p>..</p>
         </md-list-item>
-        <md-list-item ng-repeat="dir in fs.directories" ng-click="toggleSelect($event, dir)"
-            ng-dblclick="openFolder(dir.path)">
-            <md-icon class="icon material-icon">folder</md-icon>
-            <p ng-bind="dir.name"></p>
+        <md-list-item ng-repeat="file in fs.files | orderBy: ['-directory', 'name'] track by $index"
+                      ng-click="toggleSelect($event, file)"
+            ng-dblclick="open(file, $event)">
+            <md-icon ng-if="file.directory" class="icon material-icon">folder</md-icon>
+            <md-icon ng-if="!file.directory" class="icon material-icon">insert_drive_file</md-icon>
+            <p ng-bind="file.name"></p>
             <md-icon class="icon material-icon md-secondary"
-                     ng-click="renameFolderDialog(dir)"
+                     ng-click="renameFolderDialog(file)"
                      aria-label="Remove Folder">mode_edit</md-icon>
             <md-icon class="icon material-icon md-secondary"
-                     ng-click="removeFolder($index, dir)"
+                     ng-click="removeFolder($index, file)"
                      aria-label="Remove Folder">delete</md-icon>
         </md-list-item>
     </md-list>

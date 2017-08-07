@@ -10,35 +10,49 @@ import java.util.stream.Collectors;
 
 @Getter @Setter
 @AllArgsConstructor
-public class Directory {
+public class File {
 
-    private List<Directory> directories;
-    private Directory parent;
+    private List<File> files;
+    private File parent;
     private String name;
     private Date created;
     private Date updated;
+    private boolean directory;
+    private String data;
 
     @Setter(AccessLevel.PRIVATE)
     private String path;
 
-    public Directory(){
+    public File(){
         this("/");
     }
 
-    public Directory(String name){
+
+
+    public File(String name){
         this.name = name;
         this.created = new Date();
         this.updated = created;
-        this.directories = new ArrayList<>();
-        this.parent = null;
+        this.files = new ArrayList<>();
     }
 
-    public Directory(Directory other, Directory parent) {
-        this.name = other.name;
-        this.created = other.created;
-        this.updated = other.updated;
-        this.directories = other.directories;
-        this.parent = parent;
+    public File(boolean isDir) {
+        this("/", isDir);
+    }
+
+    public File(String name, boolean isDir){
+        this(name);
+        this.directory = isDir;
+    }
+
+    public File(File file) {
+        this.name = file.name;
+        this.created = new Date();
+        this.updated = created;
+        this.data = file.data;
+        this.directory = file.directory;
+        this.files = file.files != null ?
+                file.files.stream().map(File::new).collect(Collectors.toList()) : new ArrayList<>();
     }
 
     public String getPath() {
@@ -50,7 +64,7 @@ public class Directory {
 
     @Override
     public boolean equals(Object other) {
-        return (other instanceof Directory && ((Directory) other).getPath()
+        return (other instanceof File && ((File) other).getPath()
                 .equals(this.getPath()));
     }
 
@@ -60,30 +74,15 @@ public class Directory {
     }
 
 
-    @JsonProperty("directories")
-    public List<JSONDirectory> getChildDirectoriesJSON(){
-        return this.directories.stream().map(JSONDirectory::new)
-                .collect(Collectors.toList());
+    @JsonProperty("files")
+    public List<JSONFile> getChildFilesJSON(){
+        return this.files != null ? this.files.stream().map(JSONFile::new)
+                .collect(Collectors.toList()) : null;
     }
 
     @JsonProperty("parent")
-    public JSONDirectory getParentDirectoryJSON() {
-        return this.parent != null ? new JSONDirectory(this.parent) : null;
-    }
-
-    @Data
-    private class JSONDirectory {
-        private String name;
-        private String path;
-        private String parentName;
-        private String parentPath;
-
-        JSONDirectory(Directory d) {
-            this.name = d.name;
-            this.path = d.getPath();
-            this.parentName = d.parent != null ? d.parent.name : null;
-            this.parentPath = d.parent != null ? d.parent.getPath() : null;
-        }
+    public JSONFile getParentFileJSON() {
+        return this.parent != null ? new JSONFile(this.parent) : null;
     }
 
 }
