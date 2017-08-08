@@ -10,8 +10,6 @@
         </button>
     </div>
 </md-toolbar>
-<div ></div>
-
 <md-content>
     <md-list flex >
         <md-list-item ng-if="fs.parent" ng-dblclick="open(fs.parent)">
@@ -19,8 +17,7 @@
             <p>..</p>
         </md-list-item>
         <md-list-item ng-repeat="file in fs.files | orderBy: ['-directory', 'name'] track by $index"
-                      ng-click="toggleSelect($event, file)"
-            ng-dblclick="open(file, $event)">
+                      ng-click="toggleSelect($event, file)" ng-dblclick="open(file, $event)">
             <md-icon ng-if="file.directory" class="icon material-icon">folder</md-icon>
             <md-icon ng-if="!file.directory" class="icon material-icon">insert_drive_file</md-icon>
             <p ng-bind="file.name"></p>

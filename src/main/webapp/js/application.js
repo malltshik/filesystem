@@ -1,5 +1,3 @@
-console.info("Application was started!")
-
 var app = angular.module("app", [
     "ui.router",
     "ngResource",
@@ -11,21 +9,19 @@ var app = angular.module("app", [
 ])
 
 app.config(function($stateProvider, $urlRouterProvider) {
-
     $stateProvider
     .state("root", {
         url: "/?p&f",
         templateUrl: "views/root.html",
         controller: "RootCtrl",
-    })
-
+    });
     $urlRouterProvider.otherwise("/");
-
 });
 
 app.controller("RootCtrl", ["$scope", "$rootScope", "$stateParams", "$state", "FS",
-"$mdDialog", "Toast", "$window", "Move", "Copy",
-function($scope, $rootScope, $stateParams, $state, FS, $mdDialog, Toast, $window, Move, Copy){
+                            "$mdDialog", "Toast", "$window", "Move", "Copy", function(
+                            $scope, $rootScope, $stateParams, $state, FS, $mdDialog,
+                            Toast, $window, Move, Copy) {
 
     $scope.ctrlDown = false;
     $scope.ctrlKey = 17, $scope.vKey = 86, $scope.cKey = 67; $scope.xKey = 88;
@@ -84,7 +80,6 @@ function($scope, $rootScope, $stateParams, $state, FS, $mdDialog, Toast, $window
                 }, function(error) {
                     Toast.show(error.code, error.data.message)
                 })
-
                 $state.reload()
             }
         });
@@ -259,7 +254,6 @@ app.factory("Copy", ["$resource", function($resource){
     return $resource('/fs/copy', {}, {'send':{method:'POST', isArray: true}})
 }]);
 
-
 app.service('Toast', ['$mdToast', function($mdToast) {
   this.show = function(status, message, timeout=1000) {
     $mdToast.show({
@@ -277,21 +271,3 @@ function($scope, $mdToast, $state, status, message){
   $scope.message = message;
   $scope.close = function() { $mdToast.hide() };
 }]);
-
-Array.prototype.foreach = function (callback) {
-  iterations = Math.floor(this.length / 5);
-  len = this.length
-  if(len == 0) {return this}
-  dot = len % 5;
-  i = 0;
-  do { switch (dot) {
-      case 0: callback(this[i++]);
-      case 4: callback(this[i++]);
-      case 3: callback(this[i++]);
-      case 2: callback(this[i++]);
-      case 1: callback(this[i++]);
-    }
-    dot = 0
-  } while (iterations--)
-  return this;
-};
