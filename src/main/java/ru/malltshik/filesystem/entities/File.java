@@ -23,11 +23,7 @@ public class File {
     @Setter(AccessLevel.PRIVATE)
     private String path;
 
-    public File(){
-        this("/");
-    }
-
-
+    public File(){  this("/"); }
 
     public File(String name){
         this.name = name;
@@ -52,7 +48,8 @@ public class File {
         this.data = file.data;
         this.directory = file.directory;
         this.files = file.files != null ?
-                file.files.stream().map(File::new).collect(Collectors.toList()) : new ArrayList<>();
+                file.files.stream().map(File::new).collect(Collectors.toList()) :
+                new ArrayList<>();
     }
 
     public String getPath() {

@@ -6,13 +6,15 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 import ru.malltshik.filesystem.entities.File;
+import ru.malltshik.filesystem.entities.JSONFile;
 import ru.malltshik.filesystem.exceptions.BadRequestException;
 import ru.malltshik.filesystem.exceptions.ConflictException;
 import ru.malltshik.filesystem.exceptions.NotFoundException;
 import ru.malltshik.filesystem.services.FileSystem;
-import ru.malltshik.filesystem.services.implementations.InMemFileSystem;
+import ru.malltshik.filesystem.services.implementations.InMemoryFileSystem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -20,9 +22,9 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
-public class InMemFileSystemUnitTest {
+public class InMemoryFileSystemUnitTest {
 
-    @InjectMocks private FileSystem fs = new InMemFileSystem();
+    @InjectMocks private FileSystem fs = new InMemoryFileSystem();
 
     private File root;
 
@@ -100,7 +102,37 @@ public class InMemFileSystemUnitTest {
         fs.deleteFile("/deleteMe");
         assertThat(root.getFiles(), hasSize(0));
         fs.getFile("/deleteMe");
+    }
 
+    @Test(expected = ConflictException.class)
+    public void deleteRootFile() throws Exception {
+        fs.deleteFile("/");
+    }
+
+    @Test
+    public void moveFile() throws Exception {
+        File file = new File("file1");
+        File dir = new File("dir", true);
+        fs.createFile(root.getPath(), file);
+        file.setData("move me to 'dir' folder");
+        fs.createFile(root.getPath(), dir);
+        fs.moveFiles(dir.getPath(), Collections.singletonList(new JSONFile(file)));
+        assertThat(fs.getFile().getFiles(), hasSize(1));
+        assertThat(fs.getFile(dir.getPath()).getFiles(), hasSize(1));
+        assertThat(fs.getFile("/dir/file1").getData(), equalTo("move me to 'dir' folder"));
+    }
+
+    @Test
+    public void copyFile() throws Exception {
+        File file = new File("file1");
+        File dir = new File("dir", true);
+        fs.createFile(root.getPath(), file);
+        file.setData("move me to 'dir' folder");
+        fs.createFile(root.getPath(), dir);
+        fs.copyFiles(dir.getPath(), Collections.singletonList(new JSONFile(file)));
+        assertThat(root.getFiles(), hasSize(2));
+        assertThat(fs.getFile(dir.getPath()).getFiles(), hasSize(1));
+        assertThat(fs.getFile("/dir/file1").getData(), equalTo("move me to 'dir' folder"));
     }
 
 }

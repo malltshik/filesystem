@@ -12,9 +12,12 @@ import ru.malltshik.filesystem.exceptions.BadRequestException;
 import ru.malltshik.filesystem.exceptions.ConflictException;
 import ru.malltshik.filesystem.exceptions.NotFoundException;
 
+/**
+ * Setting for handle runtime exception and translate it to
+ * JSON request with application error message
+ */
 @ControllerAdvice
 public class ControllerAdviceConfiguration {
-
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
@@ -36,17 +39,17 @@ public class ControllerAdviceConfiguration {
         return new ResponseEntity<>(new ExceptionEntity(ex), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Transport class for JSON format exception
+     */
     @Data @AllArgsConstructor
     class ExceptionEntity {
-
         private String message;
         private String details;
-
         ExceptionEntity(Exception exception) {
             this.message = exception.getMessage();
             this.details = exception.getClass().getName();
         }
-
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class InMemFileSystem implements FileSystem {
+public class InMemoryFileSystem implements FileSystem {
 
     private static final File root = new File(true);
 
@@ -58,7 +58,9 @@ public class InMemFileSystem implements FileSystem {
     @Override
     public void deleteFile(String path) throws Exception {
         File target = getFile(path);
-        target.getParent().getFiles().removeIf(d -> d.equals(target));
+        File parent = target.getParent();
+        if (parent == null) throw new ConflictException("Can't remove root directory");
+        else parent.getFiles().removeIf(d -> d.equals(target));
     }
 
     @Override
@@ -70,8 +72,8 @@ public class InMemFileSystem implements FileSystem {
         for(JSONFile file: files) {
             File origin = getFile(file.getPath());
             validate(parent, origin);
-            if(parent.equals(origin))
-                throw new BadRequestException("Can't move directory into itself");
+            // Can't move directory into itself
+            if(parent.equals(origin)) continue;
             parent.getFiles().add(origin);
             origin.getParent().getFiles().removeIf(f -> f.getName().equals(origin.getName()));
             origin.setParent(parent);
@@ -89,8 +91,8 @@ public class InMemFileSystem implements FileSystem {
         for(JSONFile file: files) {
             File origin = new File(getFile(file.getPath()));
             validate(parent, origin);
-            if(parent.equals(origin))
-                throw new BadRequestException("Can't move directory into itself");
+            // Can't move directory into itself
+            if(parent.equals(origin)) continue;
             parent.getFiles().add(origin);
             origin.setParent(parent);
             result.add(origin);

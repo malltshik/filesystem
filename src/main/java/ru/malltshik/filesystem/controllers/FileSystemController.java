@@ -10,23 +10,21 @@ import ru.malltshik.filesystem.services.FileSystem;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/fs")
+@RestController @RequestMapping("/fs")
 public class FileSystemController {
 
-    @Autowired
-    private FileSystem fs;
+    @Autowired private FileSystem fs;
 
     @RequestMapping(method = RequestMethod.GET)
-    public File getFile(@RequestParam(name = "p", required = false) String path)
-            throws Exception {
+    public File getFile(@RequestParam(name = "p", required = false) String path) throws Exception {
         return fs.getFile(path);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public File createFile(@RequestParam(name = "p", required = false) String path,
-                                @RequestBody File file) throws Exception {
-        return fs.createFile(path, file);
+    public ResponseEntity<File> createFile(
+            @RequestParam(name = "p", required = false) String path,
+            @RequestBody File file) throws Exception {
+        return new ResponseEntity<>(fs.createFile(path, file), HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
