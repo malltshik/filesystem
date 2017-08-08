@@ -17,5 +17,7 @@ For start up application run next commands:
 ### Hotkeys ###
 
 `Ctrl + C` - copy file to buffer
+
 `Ctrl + X` - cut file to buffer
+
 `Ctrl + V` - paste file from buffer to current directory
