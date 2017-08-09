@@ -9,9 +9,9 @@ across web-ui interface
 This application is spring boot web application with embaded tomcat server.
 For start up application run next commands:
 
-* ```bash git clone git@bitbucket.org:gavrilov-a/filesystem.git && cd filesystem```
-* ```bash mvn install```
-* ```bash java -jar target/filesystem-${version}.jar```
+* ```git clone git@bitbucket.org:gavrilov-a/filesystem.git && cd filesystem```
+* ```mvn install```
+* ```java -jar target/filesystem-${version}.jar```
 
 
 ### Hotkeys ###
